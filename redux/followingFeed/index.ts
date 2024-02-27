@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Post } from "types";
-import { FollowingFeedState } from "./types";
+import { FollowingFeedState, FollowingFeedRequest } from "./types";
 
 const initialState: FollowingFeedState = {
   posts: [],
   loading: false,
+  page: 1,
+  hasMorePages: false,
+  isRefreshing: false,
   error: null,
 };
 
@@ -15,11 +18,22 @@ export const followingFeedSlice = createSlice({
     fetchFollowingFeedStart(state) {
       state.loading = true;
       state.error = null;
+      // state.posts = [];
     },
-    fetchFollowingFeedSuccess(state, action: PayloadAction<Post[]>) {
+    fetchFollowingFeedSuccess(
+      state,
+      action: PayloadAction<FollowingFeedRequest>
+    ) {
       state.loading = false;
       state.error = null;
-      state.posts = action.payload;
+      if (action.payload.page === 1) {
+        state.posts = action.payload.posts;
+      } else {
+        state.posts = [...state.posts, ...action.payload.posts];
+      }
+
+      state.hasMorePages = action.payload.posts.length === 6;
+      state.isRefreshing = false;
     },
     fetchFollowingFeedFailure(state, action: PayloadAction<Error>) {
       state.loading = false;
@@ -32,6 +46,10 @@ export const followingFeedSlice = createSlice({
       });
       state.posts = updatedPosts;
     },
+    setFollowingFeedPage(state, action: PayloadAction<number>) {
+      state.page = action.payload;
+      state.isRefreshing = true;
+    },
   },
 });
 
@@ -40,5 +58,6 @@ export const {
   fetchFollowingFeedSuccess,
   fetchFollowingFeedFailure,
   addPostToFollowingFeed,
+  setFollowingFeedPage,
 } = followingFeedSlice.actions;
 export default followingFeedSlice.reducer;

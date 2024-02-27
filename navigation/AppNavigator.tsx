@@ -8,9 +8,9 @@ const AppNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="HomeStack"
+        name="HomeScreen"
         component={HomeNavigator}
-        // options={{ headerShown: false }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="AddPost"
