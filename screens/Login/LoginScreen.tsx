@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
 import { LoginForm } from "../../components/loginForm";
 import { loginUser } from "../../repositories/AuthRepository";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationState } from "../../redux/types";
 import { clearErrors } from "../../redux/auth";
-export const LoginScreen = (props) => {
+import {
+  LoginScreenContainer,
+  RaveWaveLogo,
+  LogoContainer,
+  WaveLogo,
+} from "./LoginScreen.css";
+export const LoginScreen = () => {
   const dispatch = useDispatch();
-  const { navigation } = props;
   const [errorMessage, setErrorMessage] = useState<Error>(null);
+
   const error = useSelector((state: ApplicationState) => state.auth.error);
   const clearError = () => {
     setErrorMessage(null);
@@ -28,14 +33,18 @@ export const LoginScreen = (props) => {
   };
 
   return (
-    <View>
-      <Text>Login Screen</Text>
+    <LoginScreenContainer>
+      <LogoContainer>
+        {/* <Ethnocentric size={43}>RaveWave</Ethnocentric> */}
+        <RaveWaveLogo>Rave</RaveWaveLogo>
+        <WaveLogo>Wave</WaveLogo>
+      </LogoContainer>
       <LoginForm
         onSubmit={handleSubmit}
         errorMessage={errorMessage}
         clearError={clearError}
       />
-    </View>
+    </LoginScreenContainer>
   );
 };
 

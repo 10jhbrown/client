@@ -19,12 +19,25 @@ import {
   BlankTextWrapper,
   ClockIcon,
 } from "./followingCard.css";
+import { Image, StyleSheet, View } from "react-native";
 
 import TimeAgo from "javascript-time-ago";
 
 // English.
 import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "flex-start",
+  },
+  image: {
+    width: 50,
+    height: 50,
+    resizeMode: "cover",
+  },
+});
 
 export const FollowingCard = ({ post }) => {
   const {
@@ -50,6 +63,9 @@ export const FollowingCard = ({ post }) => {
             <MainContainer>
               <UserInfoContainer>
                 <RowContainer>
+                  <View style={styles.container}>
+                    <Image source={{ uri: avatar }} style={styles.image} />
+                  </View>
                   <NameWrapper>{`${firstName} ${lastName}`}</NameWrapper>
                   <UsernameWrapper>@{username}</UsernameWrapper>
                 </RowContainer>

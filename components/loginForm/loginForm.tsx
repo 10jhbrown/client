@@ -1,7 +1,17 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Formik } from "formik";
-import * as Yup from "yup";
+import { loginValidationSchema } from "validation/loginValidationSchema";
+import { CustomTextField } from "../customTextField";
+import {
+  LoginFormContainer,
+  LoginTitle,
+  ErrorContainer,
+  ErrorText,
+  LoginButtonContainer,
+} from "./loginForm.css";
+import { CustomButton } from "components/customButton";
+import { WarningIcon } from "components/customTextField/customTextField.css";
 
 export const LoginForm = ({ onSubmit, errorMessage, clearError }) => {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
@@ -17,23 +27,29 @@ export const LoginForm = ({ onSubmit, errorMessage, clearError }) => {
 
   return (
     <View>
-      <Text>Login</Text>
       <Formik
         initialValues={{ email: "", password: "" }}
-        validationSchema={Yup.object({
-          email: Yup.string()
-            .email("Invalid email address")
-            .required("Required"),
-          password: Yup.string().required("Required"),
-        })}
+        validationSchema={loginValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
           onSubmit(values);
           setSubmitting(false);
         }}
       >
         {({ handleChange, handleSubmit, values, errors }) => (
-          <View style={styles.container}>
-            <TextInput
+          //@ts-ignore
+          <LoginFormContainer>
+            <LoginTitle>Sign In</LoginTitle>
+            <CustomTextField
+              emailIcon
+              placeholder={"Email"}
+              onChangeText={handleChange("email")}
+              value={values.email}
+              //@ts-ignore
+              autoCapitalize="none"
+              errorEmail={errors.email}
+              onBlur={handleEmailBlur}
+            />
+            {/* <InputField
               onFocus={() => setIsEmailFocused(true)}
               style={styles.input}
               placeholder="Email"
@@ -42,9 +58,13 @@ export const LoginForm = ({ onSubmit, errorMessage, clearError }) => {
               value={values.email}
               autoCapitalize="none"
               onChange={clearError}
-            />
-            {errors.email && <Text>{errors.email}</Text>}
-            <TextInput
+            /> */}
+            {/* {errors.email && (
+              <ErrorContainer>
+                <ErrorText>{errors.email}</ErrorText>
+              </ErrorContainer>
+            )} */}
+            {/* <InputField
               onFocus={() => setIsPasswordFocused(true)}
               style={styles.input}
               placeholder="Password"
@@ -53,31 +73,34 @@ export const LoginForm = ({ onSubmit, errorMessage, clearError }) => {
               value={values.password}
               secureTextEntry
               onChange={clearError}
+            /> */}
+            <CustomTextField
+              keyIcon
+              placeholder={"Password"}
+              onChangeText={handleChange("password")}
+              value={values.password}
+              //@ts-ignore
+              secureTextEntry
+              onChange={clearError}
+              errorPassword={errors.password}
             />
-            {errors.password && <Text>{errors.password}</Text>}
-            {errorMessage && <Text>{errorMessage}</Text>}
-            <Button onPress={() => handleSubmit()} title="Submit" />
-          </View>
+            {/* {errors.password && (
+              <ErrorContainer>
+                <ErrorText>{errors.password}</ErrorText>
+              </ErrorContainer>
+            )} */}
+            {errorMessage && (
+              <ErrorContainer>
+                <WarningIcon name />
+                <ErrorText> {errorMessage}</ErrorText>
+              </ErrorContainer>
+            )}
+            <LoginButtonContainer>
+              <CustomButton onPress={() => handleSubmit()} title="Sign In" />
+            </LoginButtonContainer>
+          </LoginFormContainer>
         )}
       </Formik>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: "50%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  input: {
-    width: "80%",
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4,
-    color: "black",
-  },
-});

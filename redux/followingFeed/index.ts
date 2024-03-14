@@ -18,7 +18,6 @@ export const followingFeedSlice = createSlice({
     fetchFollowingFeedStart(state) {
       state.loading = true;
       state.error = null;
-      // state.posts = [];
     },
     fetchFollowingFeedSuccess(
       state,
@@ -31,7 +30,6 @@ export const followingFeedSlice = createSlice({
       } else {
         state.posts = [...state.posts, ...action.payload.posts];
       }
-
       state.hasMorePages = action.payload.posts.length === 6;
       state.isRefreshing = false;
     },
@@ -50,6 +48,10 @@ export const followingFeedSlice = createSlice({
       state.page = action.payload;
       state.isRefreshing = true;
     },
+    emptyPosts(state) {
+      state.posts = [];
+      state.page = 1;
+    },
   },
 });
 
@@ -59,5 +61,6 @@ export const {
   fetchFollowingFeedFailure,
   addPostToFollowingFeed,
   setFollowingFeedPage,
+  emptyPosts,
 } = followingFeedSlice.actions;
 export default followingFeedSlice.reducer;

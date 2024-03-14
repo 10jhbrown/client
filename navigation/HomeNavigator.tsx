@@ -3,6 +3,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
 import Zocial from "react-native-vector-icons/Zocial";
 import { HomeScreen } from "../screens/Home";
+import { ProfileScreen } from "../screens/Profile";
 
 export const HomeNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -48,6 +49,11 @@ export const HomeNavigator = () => {
         name="Home"
         component={HomeScreen}
         options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerShown: true }}
       />
     </Tab.Navigator>
   );

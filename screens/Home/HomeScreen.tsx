@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { FollowingCard } from "../../components/followingCard";
 import { getFollowingFeedPosts } from "../../repositories/FeedRepository";
 import { selectAuthToken } from "../../redux/auth/selectors";
-import { SORT } from "../../constants";
 import {
   selectFollowingFeed,
   selectFeedPage,
@@ -52,7 +51,7 @@ export const HomeScreen = () => {
   const handleRefresh = () => {
     // setTimeout(() => {
     dispatch(setFollowingFeedPage(1));
-    // }, 500);
+    // }, 1500);
   };
 
   const loadMorePosts = () => {
@@ -60,8 +59,6 @@ export const HomeScreen = () => {
   };
 
   const renderEndOfFeed = () => {
-    // dispatch(setFollowingFeedPage(page + 1));
-
     return !hasMorePages && !isLoading ? (
       <FeedFooter />
     ) : (
@@ -80,7 +77,8 @@ export const HomeScreen = () => {
         keyExtractor={(item) => item._id.toString()}
         ListFooterComponent={renderEndOfFeed}
         onEndReached={loadMorePosts}
-        onEndReachedThreshold={1}
+        onEndReachedThreshold={0.5}
+        alwaysBounceVertical={false}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />
         }
