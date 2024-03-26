@@ -13,13 +13,13 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setLoginSuccess(state, action: PayloadAction<Auth>) {
+    setAuthSuccess(state, action: PayloadAction<Auth>) {
       state.loading = false;
       state.error = null;
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
-    setLoginFailure(state, action: PayloadAction<Error>) {
+    setAuthFailure(state, action: PayloadAction<string | Error>) {
       state.loading = false;
       state.error = action.payload;
     },
@@ -34,8 +34,8 @@ export const authSlice = createSlice({
 });
 
 export const {
-  setLoginSuccess,
-  setLoginFailure,
+  setAuthSuccess,
+  setAuthFailure,
   setLogOut,
   clearErrors,
 } = authSlice.actions;

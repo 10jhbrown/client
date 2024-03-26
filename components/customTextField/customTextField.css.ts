@@ -15,6 +15,9 @@ export interface LabelProps {
 export interface InputProps {
   isFocused: boolean;
   error: boolean;
+  isUsernameAvailable: boolean;
+  isEmailAvailable: boolean;
+  title: string;
 }
 
 export const CustomTextFieldContainer = styled(View)`
@@ -37,7 +40,9 @@ export const InputField = styled(TextInput).attrs({
   padding-horizontal: 10px;
   border-width: 1px;
   border-color: ${(props) =>
-    props.error
+    props.error ||
+    (!props.isEmailAvailable && props.title === "Email") ||
+    (!props.isUsernameAvailable && props.title === "Username")
       ? "red"
       : props.isFocused
       ? theme.colors.PRIMARY_500
@@ -45,7 +50,7 @@ export const InputField = styled(TextInput).attrs({
   border-radius: 15px;
   color: black;
   background-color: ${theme.colors.SURFACE_200};
-  color: ${(props) => (props.isFocused ? "white" : theme.colors.PLACEHOLDER)};
+  color: white;
 `;
 
 export const RowContainer = styled.View`

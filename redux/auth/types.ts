@@ -3,5 +3,5 @@ export interface AuthState {
   user: User;
   token: string | null;
   loading: boolean;
-  error: Error | null;
+  error: Error | string | null;
 }

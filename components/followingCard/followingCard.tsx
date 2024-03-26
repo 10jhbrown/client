@@ -29,13 +29,15 @@ TimeAgo.addLocale(en);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0,
     justifyContent: "flex-start",
+    borderRadius: 50,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     resizeMode: "cover",
+    borderRadius: 30,
   },
 });
 

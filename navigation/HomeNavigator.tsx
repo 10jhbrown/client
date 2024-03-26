@@ -4,6 +4,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import Zocial from "react-native-vector-icons/Zocial";
 import { HomeScreen } from "../screens/Home";
 import { ProfileScreen } from "../screens/Profile";
+import { theme } from "theme";
 
 export const HomeNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -11,13 +12,13 @@ export const HomeNavigator = () => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: "red",
-        inActiveTintColor: "grey",
+        tabBarActiveTintColor: theme.colors.PRIMARY_400,
+        inActiveTintColor: theme.colors.PLACEHOLDER,
         tabBarStyle: [
           {
             paddingTop: 10,
             height: 100,
-            //   backgroundColor: theme.colors.SURFACE_100,
+            backgroundColor: theme.colors.SURFACE_100,
             borderTopWidth: 0,
           },
           null,

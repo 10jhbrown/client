@@ -1,34 +1,144 @@
 import { API_URL } from "../env.json";
-import { setLoginSuccess, setLoginFailure } from "../redux/auth";
+import { setAuthSuccess, setAuthFailure } from "../redux/auth";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
 const endpoint = {
   login: `${API_URL}/auth/login`,
   register: `${API_URL}/auth/register`,
 };
 
-// export const userRegister = async (user) => {
-//   const response = await fetch(endpoint.register, {
-//     method: "post",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       firstName: user.firstName,
-//       lastName: user.lastName,
-//       username: user.username,
-//       email: user.email,
-//       password: user.password,
-//       confirmPassword: user.confirmPassword,
-//     }),
-//   });
+export const availableUsername = async (username: string) => {
+  try {
+    console.log("Enter AUTH REPO: ");
+    const usernameResponse = await fetch(`${endpoint.register}/username`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+      }),
+    });
+    const isUsernameAvailable = await usernameResponse.json();
 
-//   const responseData = await response.json();
-//   if (!response.ok) {
-//     throw responseData.error;
-//   }
-//   return responseData.user;
-// };
+    if (!usernameResponse.ok) {
+      throw isUsernameAvailable.error;
+    }
+    const { available } = isUsernameAvailable;
+    console.log("AUTH REPO: ", available, username);
+    return available;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const availableEmail = async (email: string) => {
+  try {
+    console.log("Enter AUTH REPO: ");
+    const emailResponse = await fetch(`${endpoint.register}/email`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+    const isEmailAvailable = await emailResponse.json();
+
+    if (!emailResponse.ok) {
+      throw isEmailAvailable.error;
+    }
+    const { available } = isEmailAvailable;
+    console.log("AUTH REPO: ", available, email);
+    return available;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const sendEmailVerificationCode = async (email: string) => {
+  try {
+    console.log("Enter AUTH REPO: ");
+    const emailCodeResponse = await fetch(
+      `${endpoint.register}/sendEmailVerificationCode`,
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      }
+    );
+    const emailSentStatus = await emailCodeResponse.json();
+
+    if (!emailSentStatus.ok) {
+      throw emailSentStatus.error;
+    }
+    const { message } = emailSentStatus;
+    return message;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async (
+    {
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      confirmPassword,
+      emailCode,
+    }: {
+      firstName: string;
+      lastName: string;
+      username: string;
+      email: string;
+      password: string;
+      confirmPassword: string;
+      emailCode: number;
+    },
+    { dispatch }
+  ) => {
+    try {
+      const registerResponse = await fetch(endpoint.register, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          username: username,
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword,
+          emailCode: emailCode,
+        }),
+      });
+      const registerUser = await registerResponse.json();
+
+      if (registerUser.error) {
+        dispatch(setAuthFailure(registerUser.error));
+        return;
+      }
+
+      dispatch(
+        setAuthSuccess({
+          user: registerUser.user,
+          token: registerUser.token,
+        })
+      );
+    } catch (error) {
+      return error.message;
+    }
+  }
+);
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
@@ -50,13 +160,13 @@ export const loginUser = createAsyncThunk(
 
       const loggedInUser = await loggedInResponse.json();
 
-      if (loggedInUser.error) {
-        dispatch(setLoginFailure(loggedInUser.error));
+      if (loggedInUser.error || loggedInUser.error === undefined) {
+        dispatch(setAuthFailure(loggedInUser.error));
         return;
       }
       dispatch(
-        setLoginSuccess({
-          user: loggedInUser.email,
+        setAuthSuccess({
+          user: loggedInUser.user,
           token: loggedInUser.token,
         })
       );

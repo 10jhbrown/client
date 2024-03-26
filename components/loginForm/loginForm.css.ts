@@ -18,7 +18,7 @@ export const LoginFormContainer = styled(LinearGradient).attrs({
 `;
 
 export const LoginTitle = styled.Text`
-  font-size: 33px;
+  font-size: 26px;
   color: white;
   margin-bottom: 5px;
   font-weight: bold;
@@ -64,7 +64,7 @@ export const SignUpContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-vertical: 20px;
+  margin-vertical: 10px;
 `;
 
 export const SignUpText = styled.Text`

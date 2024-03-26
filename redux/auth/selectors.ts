@@ -8,3 +8,7 @@ export const selectUserInfo = (state: ApplicationState) =>
 export const selectAuthToken = (state: ApplicationState) => {
   return selectAuthState(state).token;
 };
+
+export const selectAuthError = (state: ApplicationState) => {
+  return selectAuthState(state).error;
+};

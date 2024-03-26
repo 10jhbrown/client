@@ -1,10 +1,22 @@
 import React from "react";
 import { StyledButton, ButtonText } from "./customButton.css";
 
-export const CustomButton = ({ title, onPress }) => {
+interface Props {
+  title: string;
+  onPress: () => void;
+  disabled?: boolean;
+  secondary?: boolean;
+}
+
+export const CustomButton = ({
+  title,
+  onPress,
+  disabled,
+  secondary,
+}: Props) => {
   return (
-    <StyledButton onPress={onPress}>
-      <ButtonText>{title}</ButtonText>
+    <StyledButton onPress={onPress} disabled={disabled} secondary={secondary}>
+      <ButtonText secondary={secondary}>{title}</ButtonText>
     </StyledButton>
   );
 };

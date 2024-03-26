@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { Formik } from "formik";
 import { loginValidationSchema } from "validation/loginValidationSchema";
 import { CustomTextField } from "../customTextField";
@@ -9,13 +9,19 @@ import {
   ErrorContainer,
   ErrorText,
   LoginButtonContainer,
+  SignUpContainer,
+  SignUpText,
+  SignUpTextLink,
 } from "./loginForm.css";
 import { CustomButton } from "components/customButton";
 import { WarningIcon } from "components/customTextField/customTextField.css";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProp } from "../../navigation/types";
 
-export const LoginForm = ({ onSubmit, errorMessage, clearError }) => {
+export const LoginForm = ({ onSubmit, errorMessage, setErrorMessage }) => {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const navigation = useNavigation<NavigationProp>();
 
   const handleEmailBlur = () => {
     setIsEmailFocused(false);
@@ -40,14 +46,16 @@ export const LoginForm = ({ onSubmit, errorMessage, clearError }) => {
           <LoginFormContainer>
             <LoginTitle>Sign In</LoginTitle>
             <CustomTextField
+              title={"Email."}
               emailIcon
-              placeholder={"Email"}
+              placeholder={"Enter your email"}
               onChangeText={handleChange("email")}
               value={values.email}
               //@ts-ignore
               autoCapitalize="none"
-              errorEmail={errors.email}
+              error={errors.email}
               onBlur={handleEmailBlur}
+              setErrorMessage={setErrorMessage}
             />
             {/* <InputField
               onFocus={() => setIsEmailFocused(true)}
@@ -76,13 +84,14 @@ export const LoginForm = ({ onSubmit, errorMessage, clearError }) => {
             /> */}
             <CustomTextField
               keyIcon
-              placeholder={"Password"}
+              title={"Password"}
+              placeholder={"Enter your password"}
               onChangeText={handleChange("password")}
               value={values.password}
               //@ts-ignore
               secureTextEntry
-              onChange={clearError}
-              errorPassword={errors.password}
+              error={errors.password}
+              setErrorMessage={setErrorMessage}
             />
             {/* {errors.password && (
               <ErrorContainer>
@@ -98,6 +107,14 @@ export const LoginForm = ({ onSubmit, errorMessage, clearError }) => {
             <LoginButtonContainer>
               <CustomButton onPress={() => handleSubmit()} title="Sign In" />
             </LoginButtonContainer>
+            <SignUpContainer>
+              <SignUpText>Dont have an account? </SignUpText>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Register", undefined)}
+              >
+                <SignUpTextLink>Sign Up</SignUpTextLink>
+              </TouchableOpacity>
+            </SignUpContainer>
           </LoginFormContainer>
         )}
       </Formik>

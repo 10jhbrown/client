@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { theme } from "theme";
+import { theme } from "../../theme";
 export const LoginScreenContainer = styled.View`
   height: 100%;
   background-color: ${theme.colors.SURFACE_100};

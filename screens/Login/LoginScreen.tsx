@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { LoginForm } from "../../components/loginForm";
 import { loginUser } from "../../repositories/AuthRepository";
 import { useDispatch, useSelector } from "react-redux";
-import { ApplicationState } from "../../redux/types";
 import { clearErrors } from "../../redux/auth";
 import {
   LoginScreenContainer,
@@ -10,14 +9,19 @@ import {
   LogoContainer,
   WaveLogo,
 } from "./LoginScreen.css";
+import { selectAuthError } from "../../redux/auth/selectors";
 export const LoginScreen = () => {
   const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = useState<Error>(null);
+  const [errorMessage, setErrorMessage] = useState<string | Error>(null);
 
-  const error = useSelector((state: ApplicationState) => state.auth.error);
+  const error = useSelector(selectAuthError);
   const clearError = () => {
     setErrorMessage(null);
   };
+
+  useEffect(() => {
+    clearError();
+  }, []);
 
   useEffect(() => {
     if (error) {
@@ -42,7 +46,7 @@ export const LoginScreen = () => {
       <LoginForm
         onSubmit={handleSubmit}
         errorMessage={errorMessage}
-        clearError={clearError}
+        setErrorMessage={setErrorMessage}
       />
     </LoginScreenContainer>
   );

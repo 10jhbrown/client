@@ -21,6 +21,7 @@ import { Post } from "types";
 //@ts-ignore
 import { _ } from "lodash";
 import { FeedFooter } from "../../components/feedFooter";
+import { theme } from "theme";
 export const HomeScreen = () => {
   const token = useSelector(selectAuthToken);
   const followingFeed = useSelector(selectFollowingFeed);
@@ -69,8 +70,8 @@ export const HomeScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "blue" }}>
-      <View style={{ height: 60, backgroundColor: "red" }} />
+    <View style={{ flex: 1, backgroundColor: theme.colors.SURFACE_200 }}>
+      <View style={{ height: 60, backgroundColor: theme.colors.SURFACE_100 }} />
       <FlatList
         data={followingFeed}
         renderItem={renderPost}
