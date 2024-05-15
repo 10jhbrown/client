@@ -54,7 +54,13 @@ export const CustomTextField = ({
       <FieldLabel isFocused={isFocused}>
         {title === "Email." ? "Email" : title}
       </FieldLabel>
-      <RowContainer>
+      <RowContainer
+        isFocused={isFocused}
+        error={error}
+        isUsernameAvailable={isUsernameAvailable}
+        isEmailAvailable={isEmailAvailable}
+        title={title}
+      >
         {emailIcon && <EmailIcon name isFocused={isFocused} />}
         {keyIcon && <KeyIcon name isFocused={isFocused} />}
         <InputField
