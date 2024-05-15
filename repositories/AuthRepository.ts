@@ -8,7 +8,6 @@ const endpoint = {
 
 export const availableUsername = async (username: string) => {
   try {
-    console.log("Enter AUTH REPO: ");
     const usernameResponse = await fetch(`${endpoint.register}/username`, {
       method: "post",
       headers: {
@@ -24,7 +23,6 @@ export const availableUsername = async (username: string) => {
       throw isUsernameAvailable.error;
     }
     const { available } = isUsernameAvailable;
-    console.log("AUTH REPO: ", available, username);
     return available;
   } catch (error) {
     return error.message;
@@ -33,7 +31,6 @@ export const availableUsername = async (username: string) => {
 
 export const availableEmail = async (email: string) => {
   try {
-    console.log("Enter AUTH REPO: ");
     const emailResponse = await fetch(`${endpoint.register}/email`, {
       method: "post",
       headers: {
@@ -49,7 +46,6 @@ export const availableEmail = async (email: string) => {
       throw isEmailAvailable.error;
     }
     const { available } = isEmailAvailable;
-    console.log("AUTH REPO: ", available, email);
     return available;
   } catch (error) {
     return error.message;
@@ -58,7 +54,6 @@ export const availableEmail = async (email: string) => {
 
 export const sendEmailVerificationCode = async (email: string) => {
   try {
-    console.log("Enter AUTH REPO: ");
     const emailCodeResponse = await fetch(
       `${endpoint.register}/sendEmailVerificationCode`,
       {
@@ -160,10 +155,11 @@ export const loginUser = createAsyncThunk(
 
       const loggedInUser = await loggedInResponse.json();
 
-      if (loggedInUser.error || loggedInUser.error === undefined) {
+      if (loggedInUser.error) {
         dispatch(setAuthFailure(loggedInUser.error));
         return;
       }
+
       dispatch(
         setAuthSuccess({
           user: loggedInUser.user,

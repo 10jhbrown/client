@@ -36,9 +36,9 @@ export const InputField = styled(TextInput).attrs({
   width: 90%;
   margin-bottom: 0px;
   padding-horizontal: 10px;
-  border-width: 1px;
+  border-width: 0px;
   border-color: transparent;
-  border-radius: 0px 15px 15px 0px;
+  border-radius: 15px;
   border-left-color: ${(props) =>
     props.error ||
     (!props.isEmailAvailable && props.title === "Email") ||
@@ -81,7 +81,7 @@ export const EmailIcon = styled(Fontisto).attrs({
 })<LabelProps>`
   margin-left: 8px;
   padding-top: 8px;
-  padding-right: 10px;
+  padding-right: 5px;
   color: ${(props) => (props.isFocused ? "white" : theme.colors.PLACEHOLDER)};
 `;
 
@@ -91,7 +91,7 @@ export const KeyIcon = styled(Ionicons).attrs({
 })<LabelProps>`
   margin-left: 8px;
   padding-top: 8px;
-  padding-right: 10px;
+  padding-right: 5px;
   color: ${(props) => (props.isFocused ? "white" : theme.colors.PLACEHOLDER)};
 `;
 
