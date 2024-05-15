@@ -1,10 +1,8 @@
 import styled from "styled-components/native";
 import Fontisto from "react-native-vector-icons/Fontisto";
-import AntDesign from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { View, TextInput, Text } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 
 import { theme } from "theme";
 
@@ -21,13 +19,13 @@ export interface InputProps {
 }
 
 export const CustomTextFieldContainer = styled(View)`
-  margin: 10px;
+  margin: 5px;
 `;
 
 export const FieldLabel = styled(Text)<LabelProps>`
   font-size: 16px;
   margin-bottom: 5px;
-  margin-left: -7px;
+
   color: ${(props) => (props.isFocused ? "white" : theme.colors.PLACEHOLDER)};
 `;
 
@@ -39,6 +37,24 @@ export const InputField = styled(TextInput).attrs({
   margin-bottom: 0px;
   padding-horizontal: 10px;
   border-width: 1px;
+  border-color: transparent;
+  border-radius: 0px 15px 15px 0px;
+  border-left-color: ${(props) =>
+    props.error ||
+    (!props.isEmailAvailable && props.title === "Email") ||
+    (!props.isUsernameAvailable && props.title === "Username")
+      ? "red"
+      : props.isFocused
+      ? theme.colors.PRIMARY_500
+      : theme.colors.PLACEHOLDER};
+  color: black;
+  color: white;
+`;
+
+export const RowContainer = styled.View<InputProps>`
+  paddingleft: 5px;
+  flex-direction: row;
+  border-width: 1px;
   border-color: ${(props) =>
     props.error ||
     (!props.isEmailAvailable && props.title === "Email") ||
@@ -47,16 +63,15 @@ export const InputField = styled(TextInput).attrs({
       : props.isFocused
       ? theme.colors.PRIMARY_500
       : theme.colors.PLACEHOLDER};
-  border-radius: 15px;
+  border-radius: ${(props) =>
+    props.error ||
+    (!props.isEmailAvailable && props.title === "Email") ||
+    (!props.isUsernameAvailable && props.title === "Username")
+      ? "15px 15px 0px 0px"
+      : "15px"};
   color: black;
   background-color: ${theme.colors.SURFACE_200};
   color: white;
-`;
-
-export const RowContainer = styled.View`
-  paddingleft: 5px;
-  justify-content: space-betwenn;
-  flex-direction: row;
 `;
 
 export const EmailIcon = styled(Fontisto).attrs({
@@ -64,6 +79,7 @@ export const EmailIcon = styled(Fontisto).attrs({
   color: theme.colors.PLACEHOLDER,
   size: 23,
 })<LabelProps>`
+  margin-left: 8px;
   padding-top: 8px;
   padding-right: 10px;
   color: ${(props) => (props.isFocused ? "white" : theme.colors.PLACEHOLDER)};
@@ -73,9 +89,9 @@ export const KeyIcon = styled(Ionicons).attrs({
   name: "key-outline",
   size: 25,
 })<LabelProps>`
+  margin-left: 8px;
   padding-top: 8px;
   padding-right: 10px;
-  margin-left: -2px;
   color: ${(props) => (props.isFocused ? "white" : theme.colors.PLACEHOLDER)};
 `;
 
