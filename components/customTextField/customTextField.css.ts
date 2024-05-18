@@ -47,7 +47,6 @@ export const InputField = styled(TextInput).attrs({
       : props.isFocused
       ? theme.colors.PRIMARY_500
       : theme.colors.PLACEHOLDER};
-  color: black;
   color: white;
 `;
 

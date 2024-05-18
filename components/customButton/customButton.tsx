@@ -1,11 +1,12 @@
 import React from "react";
-import { StyledButton, ButtonText } from "./customButton.css";
+import { StyledButton, EthnoText } from "./customButton.css";
 
 interface Props {
   title: string;
   onPress: () => void;
   disabled?: boolean;
   secondary?: boolean;
+  size?: number;
 }
 
 export const CustomButton = ({
@@ -13,10 +14,13 @@ export const CustomButton = ({
   onPress,
   disabled,
   secondary,
+  size,
 }: Props) => {
   return (
     <StyledButton onPress={onPress} disabled={disabled} secondary={secondary}>
-      <ButtonText secondary={secondary}>{title}</ButtonText>
+      <EthnoText size={size} secondary={secondary}>
+        {title}
+      </EthnoText>
     </StyledButton>
   );
 };

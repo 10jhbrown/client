@@ -20,3 +20,7 @@ export const selectFeedLoading = (state: ApplicationState) => {
 export const selectFeedRefreshing = (state: ApplicationState) => {
   return selectFollowingFeedState(state).isRefreshing;
 };
+
+export const selectLoadingNewPost = (state: ApplicationState) => {
+  return selectFollowingFeedState(state).loadingNewPost;
+};

@@ -9,6 +9,12 @@ import { FollowingFeed } from "../../components/followingFeed";
 export const HomeScreen = () => {
   const activeFeedTab = useSelector(selectActiveFeedTab);
   const mainPanel = () => {
+    // if (activeFeedTab) {
+    //   return <CampusFeed />;
+    // }
+    // if (!activeFeedTab) {
+    //   return <FollowingFeed />;
+    // }
     return activeFeedTab ? <CampusFeed /> : <FollowingFeed />;
   };
 

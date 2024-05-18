@@ -6,6 +6,7 @@ export interface FollowingFeedState {
   hasMorePages: boolean;
   isRefreshing: boolean;
   error: Error | null;
+  loadingNewPost: boolean;
 }
 
 export interface FollowingFeedRequest {

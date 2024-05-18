@@ -11,10 +11,10 @@ export const StyledButton = styled(TouchableOpacity)<{ secondary: boolean }>`
   shadow-radius: 0px 0px 50px 15px #48abe0;
 `;
 
-export const ButtonText = styled(Text)<{ secondary: boolean }>`
+export const EthnoText = styled(Text)<{ secondary?: boolean; size?: number }>`
   color: ${(props) => (props.secondary ? theme.colors.PRIMARY_500 : "#fff")};
   text-align: center;
-  font-size: 16px;
+  font-size: ${(props) => (props.size ? `${props.size}px` : "16px")};
   font-weight: bold;
   font-family: Ethnocentric;
 `;

@@ -5,6 +5,7 @@ import { FollowingFeedState, FollowingFeedRequest } from "./types";
 const initialState: FollowingFeedState = {
   posts: [],
   loading: false,
+  loadingNewPost: false,
   page: 1,
   hasMorePages: false,
   isRefreshing: false,
@@ -42,11 +43,17 @@ export const followingFeedSlice = createSlice({
         if (post._id === action.payload._id) return action.payload;
         return post;
       });
+      state.loadingNewPost = true;
+      state.page = 1;
       state.posts = updatedPosts;
     },
     setFollowingFeedPage(state, action: PayloadAction<number>) {
-      state.page = action.payload;
       state.isRefreshing = true;
+      state.page = action.payload;
+      state.isRefreshing = false;
+    },
+    stopLoadingNewPost(state) {
+      state.loadingNewPost = false;
     },
     emptyPosts(state) {
       state.posts = [];
@@ -61,6 +68,7 @@ export const {
   fetchFollowingFeedFailure,
   addPostToFollowingFeed,
   setFollowingFeedPage,
+  stopLoadingNewPost,
   emptyPosts,
 } = followingFeedSlice.actions;
 export default followingFeedSlice.reducer;

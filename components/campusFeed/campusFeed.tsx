@@ -38,7 +38,7 @@ export const CampusFeed = () => {
         token,
       })
     );
-  }, [currentPage]);
+  }, [currentPage <= 1]);
 
   const renderPost = ({ item }: { item: Post }) => {
     return (

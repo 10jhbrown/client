@@ -1,18 +1,12 @@
 import { API_URL } from "env.json";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  fetchFollowingFeedFailure,
-  fetchFollowingFeedStart,
-  fetchFollowingFeedSuccess,
-} from "../redux/followingFeed";
+import { addPostToFollowingFeed } from "../redux/followingFeed";
 
 import {
   fetchCampusFeedFailure,
   fetchCampusFeedStart,
   fetchCampusFeedSuccess,
 } from "../redux/campusFeed";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { saveFeedToAsyncStorage } from "utils/asyncStorage";
 
 export const getCampusFeedPosts = createAsyncThunk(
   "campusFeed/getCampusFeedPosts",
@@ -41,30 +35,31 @@ export const getCampusFeedPosts = createAsyncThunk(
   }
 );
 
-export const getFollowingFeedPosts = createAsyncThunk(
-  "followingFeed/getFollowingFeedPosts",
-  async ({ page, token }: { page: number; token: string }, { dispatch }) => {
+export const submitFollowingPost = createAsyncThunk(
+  "followingFeed/submitFollowingPost",
+  async (
+    { followingPost, token }: { followingPost: string; token: string },
+    { dispatch }
+  ) => {
     try {
-      dispatch(fetchFollowingFeedStart());
-      const followingFeedResponse = await fetch(
-        `${API_URL}/feeds/following?page=${page}&limit=6`,
-        {
-          method: "get",
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const setFollowingPostResponse = await fetch(`${API_URL}/posts`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          content: followingPost,
+        }),
+      });
 
-      const followingFeed = await followingFeedResponse.json();
+      const setFollowingPost = await setFollowingPostResponse.json();
 
-      if (followingFeed.error) {
-        dispatch(fetchFollowingFeedFailure(followingFeed.error));
-        return;
+      if (!setFollowingPostResponse.ok) {
+        throw setFollowingPost.error;
       }
 
-      dispatch(fetchFollowingFeedSuccess(followingFeed));
-      await saveFeedToAsyncStorage("@storedFollowingFeed", followingFeed);
+      dispatch(addPostToFollowingFeed(setFollowingPost));
     } catch (error) {
       throw new error.message();
     }

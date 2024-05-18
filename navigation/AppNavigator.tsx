@@ -1,10 +1,15 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeNavigator } from "./HomeNavigator";
 import { AddPostScreen } from "../screens/AddPost";
+import { CustomButton } from "../components/customButton";
+import { EthnoText } from "../components/customButton/customButton.css";
+import { Text, View } from "react-native";
+import { theme } from "theme";
+import { useNavigation } from "@react-navigation/native";
 
 const AppNavigator = () => {
   const Stack = createStackNavigator();
-
+  const navigation = useNavigation();
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -16,17 +21,28 @@ const AppNavigator = () => {
         name="AddPost"
         component={AddPostScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerBackTitleVisible: false,
+          headerTintColor: theme.colors.SURFACE_300,
+          headerStyle: {
+            backgroundColor: theme.colors.SURFACE_100,
+            shadowOpacity: 0,
+          },
+
+          //@ts-ignore
+          headerTitle: () => <EthnoText>Rave Post</EthnoText>,
+          // headerRight: () => (
+          //   <View style={{ marginRight: 10, top: -5 }}>
+          //     <CustomButton
+          //       title="Submit"
+          //       size={14}
+          //       onPress={(navigation) => {
+          //         navigation.getParams("handleSubmit"());
+          //       }}
+          //     />
+          //   </View>
+          // ),
         }}
-        //   headerBackTitle: "",
-        //   headerRight: () => (
-        //     <Button
-        //       title="Post"
-        //       onPress={() => dispatch(submitPost("It's JBB", token))}
-        //     />
-        //     // <Text>HGello</Text>
-        //   ),
-        // }}
       />
     </Stack.Navigator>
   );
