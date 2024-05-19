@@ -6,7 +6,7 @@ import { FeedTabText } from "./feedTab.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectActiveFeedTab } from "../../redux/feedTab/selectors";
 import { setCampusFeedTab, setFollowingFeedTab } from "../../redux/feedTab";
-import { EthnoText } from "components/customButton/customButton.css";
+import { EthnoTabText } from "components/customButton/customButton.css";
 
 export const FeedTab = () => {
   const activeFeedTab = useSelector(selectActiveFeedTab);
@@ -29,7 +29,7 @@ export const FeedTab = () => {
           <View>
             <FeedTabText activeFeedTab={activeFeedTab}>
               {" "}
-              <EthnoText>Campus</EthnoText>
+              <EthnoTabText activeTab={activeFeedTab}>Campus</EthnoTabText>
             </FeedTabText>
           </View>
         </TouchableOpacity>
@@ -50,7 +50,7 @@ export const FeedTab = () => {
 
             <FeedTabText activeFeedTab={!activeFeedTab}>
               {" "}
-              <EthnoText>Following</EthnoText>
+              <EthnoTabText activeTab={!activeFeedTab}>Following</EthnoTabText>
             </FeedTabText>
           </View>
         </TouchableOpacity>

@@ -4,6 +4,7 @@ import {
   fetchFollowingFeedFailure,
   fetchFollowingFeedStart,
   fetchFollowingFeedSuccess,
+  stopLoadingNewPost,
 } from "../redux/followingFeed";
 
 import {
@@ -64,6 +65,8 @@ export const getFollowingFeedPosts = createAsyncThunk(
       }
 
       dispatch(fetchFollowingFeedSuccess(followingFeed));
+      dispatch(stopLoadingNewPost());
+
       await saveFeedToAsyncStorage("@storedFollowingFeed", followingFeed);
     } catch (error) {
       throw new error.message();

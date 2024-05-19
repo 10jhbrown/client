@@ -11,8 +11,24 @@ export const StyledButton = styled(TouchableOpacity)<{ secondary: boolean }>`
   shadow-radius: 0px 0px 50px 15px #48abe0;
 `;
 
-export const EthnoText = styled(Text)<{ secondary?: boolean; size?: number }>`
+export const EthnoText = styled(Text)<{
+  secondary?: boolean;
+  size?: number;
+  activeTab?: boolean;
+}>`
   color: ${(props) => (props.secondary ? theme.colors.PRIMARY_500 : "#fff")};
+  text-align: center;
+  font-size: ${(props) => (props.size ? `${props.size}px` : "16px")};
+  font-weight: bold;
+  font-family: Ethnocentric;
+`;
+
+export const EthnoTabText = styled(Text)<{
+  size?: number;
+  activeTab?: boolean;
+}>`
+  color: ${(props) =>
+    props.activeTab ? `white` : `${theme.colors.PLACEHOLDER}`};
   text-align: center;
   font-size: ${(props) => (props.size ? `${props.size}px` : "16px")};
   font-weight: bold;
