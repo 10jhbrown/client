@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LoginForm } from "../../components/loginForm";
-import { loginUser } from "../../repositories/AuthRepository";
+import { loginUser } from "../../repositories/AuthRepo";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors } from "../../redux/auth";
 import {

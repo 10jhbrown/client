@@ -38,7 +38,7 @@ import {
   sendEmailVerificationCode,
   registerUser,
   loginUser,
-} from "../../repositories/AuthRepository";
+} from "../../repositories/AuthRepo";
 import { VerificationForm } from "../../components/verificationForm";
 import { ApplicationState } from "../../redux/types";
 
@@ -69,7 +69,6 @@ export const RegisterScreen = () => {
     setIsEmailAvailable(true);
     switch (currentForm) {
       case 1:
-        console.log("Form 1", values, isUsernameAvailable);
         const existingUsername = await availableUsername(values["username"]);
 
         if (!existingUsername) {

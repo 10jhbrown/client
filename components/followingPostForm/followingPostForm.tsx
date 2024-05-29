@@ -5,7 +5,7 @@ import { theme } from "theme";
 import { FollowingPostField } from "./followingPostForm.css";
 import { useSelector } from "react-redux";
 import { selectAuthToken } from "../../redux/auth/selectors";
-import { submitFollowingPost } from "../../repositories/PostRepository";
+import { submitFollowingPost } from "../../repositories/FeedRepo";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 

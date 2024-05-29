@@ -1,29 +1,14 @@
 import React, { useState, useLayoutEffect } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { theme } from "theme";
-import { TextInput } from "react-native-paper";
 import { FollowingPostForm } from "../../components/followingPostForm";
-import { useDispatch, useSelector } from "react-redux";
 import {} from "../../redux/followingFeed/index";
-import { selectAuthToken } from "../../redux/auth/selectors";
 import { useNavigation } from "@react-navigation/native";
 import { CustomButton } from "components/customButton";
-import { submitFollowingPost } from "../../repositories/PostRepository";
 
 export const AddPostScreen = () => {
   const [errorMessage, setErrorMessage] = useState<string | Error>(null);
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-
-  const handleSubmit = async (values: { followingPost: string }) => {
-    const token = useSelector(selectAuthToken);
-    console.warn("VALUES", values);
-    const { followingPost } = values;
-    //@ts-ignore
-    dispatch(submitFollowingPost({ followingPost, token }));
-    //@ts-ignore
-    navigation.navigate("Home", undefined);
-  };
 
   const formikRef = React.useRef();
 

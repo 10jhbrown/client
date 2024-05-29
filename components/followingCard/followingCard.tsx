@@ -1,3 +1,4 @@
+import React, { useCallback } from "react";
 import {
   CardContainer,
   RowContainer,
@@ -6,10 +7,6 @@ import {
   NameWrapper,
   ContentContainer,
   ContentWrapper,
-  VoteContainer,
-  VoteWrapper,
-  ChevronDown,
-  ChevronUp,
   SpaceBetween,
   MainContainer,
   ColumnContainer,
@@ -19,12 +16,17 @@ import {
   BlankTextWrapper,
   ClockIcon,
 } from "./followingCard.css";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
 
 import TimeAgo from "javascript-time-ago";
 
 // English.
 import en from "javascript-time-ago/locale/en";
+import { Post } from "types";
+import { VoteCaster } from "../../components/voteCaster";
+import { useSelector, useDispatch } from "react-redux";
+import { theme } from "theme";
+import { selectAuthToken } from "redux/auth/selectors";
 TimeAgo.addLocale(en);
 
 const styles = StyleSheet.create({
@@ -41,8 +43,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export const FollowingCard = ({ post }) => {
+interface Props {
+  post: Post;
+  onVote: ({ _id, vote }) => boolean;
+  userVote?: boolean | undefined;
+}
+
+export const FollowingCard = React.memo(({ post, onVote, userVote }: Props) => {
   const {
+    _id,
     content,
     voteCount,
     commentCount,
@@ -52,10 +61,22 @@ export const FollowingCard = ({ post }) => {
     avatar,
     createdAt,
   } = post;
+  const dispatch = useDispatch();
+  const token = useSelector(selectAuthToken);
 
-  // Create formatter (English).
+  // // Create formatter (English).
   const timeAgo = new TimeAgo("en-US");
-
+  const handleVoteButtonStyle = useCallback(
+    (vote: boolean) => {
+      // console.log("USER VOTE", userVotes[postId]);
+      if (userVote === vote) {
+        return { color: theme.colors.PRIMARY_400 };
+      }
+      return {};
+    },
+    [userVote]
+  );
+  console.log("FOLLOWING CARD", _id);
   return (
     <CardContainer>
       {/* <Text>{username}</Text> */}
@@ -76,15 +97,14 @@ export const FollowingCard = ({ post }) => {
                 <ContentWrapper>{content}</ContentWrapper>
               </ContentContainer>
             </MainContainer>
-            <VoteContainer>
-              <ChevronUp name />
-              <VoteWrapper>{voteCount}</VoteWrapper>
-
-              <ChevronDown name />
-            </VoteContainer>
+            <VoteCaster
+              postId={_id}
+              voteCount={voteCount}
+              voteButtonStyle={handleVoteButtonStyle}
+              onVote={onVote}
+            />
           </RowContainer>
         </SpaceBetween>
-        {/* <Text>Hello</Text> */}
         <FooterRowContainer>
           <TimeContainer>
             <ClockIcon name />{" "}
@@ -98,6 +118,89 @@ export const FollowingCard = ({ post }) => {
       </ColumnContainer>
     </CardContainer>
   );
-};
+});
 
 export default FollowingCard;
+
+// import React, { useCallback, useMemo } from "react";
+// import { View, Text, Button, StyleSheet } from "react-native";
+// import { Post } from "../../types";
+// import { theme } from "theme";
+
+// interface Props {
+//   post: Post;
+//   userVote: boolean | undefined;
+//   onVote: (postId: string, vote: boolean) => void;
+// }
+
+// const FollowingCardComponent = ({ post, userVote, onVote }: Props) => {
+//   const handleUpvote = useCallback(() => {
+//     onVote(post._id, true);
+//   }, [onVote, post._id]);
+
+//   const handleDownvote = useCallback(() => {
+//     onVote(post._id, false);
+//   }, [onVote, post._id]);
+
+//   const upvoteStyle = useMemo(() => {
+//     return userVote === true
+//       ? styles.activeVoteButton
+//       : styles.inactiveVoteButton;
+//   }, [userVote]);
+
+//   const downvoteStyle = useMemo(() => {
+//     return userVote === false
+//       ? styles.activeVoteButton
+//       : styles.inactiveVoteButton;
+//   }, [userVote]);
+
+//   return (
+//     <View style={styles.card}>
+//       <Text style={styles.title}>{post.firstName}</Text>
+//       <Text style={styles.body}>{post.content}</Text>
+//       <View style={styles.buttonContainer}>
+//         <Button
+//           title="Upvote"
+//           onPress={handleUpvote}
+//           color={upvoteStyle.color}
+//         />
+//         <Button
+//           title="Downvote"
+//           onPress={handleDownvote}
+//           color={downvoteStyle.color}
+//         />
+//       </View>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   card: {
+//     padding: 16,
+//     marginVertical: 8,
+//     backgroundColor: theme.colors.SURFACE_100,
+//     borderRadius: 8,
+//   },
+//   title: {
+//     fontSize: 16,
+//     fontWeight: "bold",
+//     color: "white",
+//   },
+//   body: {
+//     fontSize: 14,
+//     color: "white",
+//   },
+//   buttonContainer: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     marginTop: 16,
+//   },
+//   activeVoteButton: {
+//     color: theme.colors.PRIMARY_400,
+//   },
+//   inactiveVoteButton: {
+//     color: "grey",
+//   },
+// });
+
+// export const FollowingCard = React.memo(FollowingCardComponent);

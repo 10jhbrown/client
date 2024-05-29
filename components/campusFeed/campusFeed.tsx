@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { CampusCard } from "../campusCard";
-import { getCampusFeedPosts } from "../../repositories/FeedRepository";
+import { getCampusFeedPosts } from "../../repositories/FeedRepo";
 import { selectAuthToken } from "../../redux/auth/selectors";
 import {
   selectCampusFeed,

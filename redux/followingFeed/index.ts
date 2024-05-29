@@ -3,7 +3,7 @@ import { Post } from "types";
 import { FollowingFeedState, FollowingFeedRequest } from "./types";
 
 const initialState: FollowingFeedState = {
-  posts: [],
+  posts: <Post[]>[],
   loading: false,
   loadingNewPost: false,
   page: 1,
@@ -31,6 +31,10 @@ export const followingFeedSlice = createSlice({
       } else {
         state.posts = [...state.posts, ...action.payload.posts];
       }
+      state.posts = state.posts.map((post) => ({
+        ...post,
+        hasVoted: post.hasVoted,
+      }));
       state.hasMorePages = action.payload.posts.length === 6;
       state.isRefreshing = false;
     },
@@ -52,12 +56,76 @@ export const followingFeedSlice = createSlice({
       state.page = action.payload;
       state.isRefreshing = false;
     },
+    // setVoteCount: (
+    //   state,
+    //   action: PayloadAction<{ postId: string; voteCount: number }>
+    // ) => {
+    //   const { postId, voteCount } = action.payload;
+    //   const post = state.posts.find((post) => post._id === postId);
+    //   if (post) {
+    //     console.log("ENTER VOTE REDUX");
+    //     post.voteCount = voteCount;
+    //   }
+    // },
+    //   setVoteCount(
+    //     state,
+    //     action: PayloadAction<{
+    //       postId: string;
+    //       votedBy: string;
+    //       vote: boolean;
+    //     }>
+    //   ) {
+    //     // let indexToUpdate = state.posts.findIndex(
+    //     //   (post) => post._id === action.payload.postId
+    //     // );
+    //     // if (!state.posts[indexToUpdate].hasVoted) {
+    //     //   state.posts[indexToUpdate].voteCount += 1;
+    //     //   state.posts[indexToUpdate].hasVoted = true;
+    //     // } else {
+    //     //   state.posts[indexToUpdate].voteCount += 2;
+    //     // }
+    //     // state.posts[indexToUpdate].voteStatus = true;
+    //     const { postId, vote } = action.payload;
+    //     // const postIndex = state.posts.findIndex((post) => post._id === postId);
+
+    //     // Ensure the post exists before trying to update it
+    //     // if (postIndex !== -1) {
+    //     //   const post = state.posts[postIndex];
+    //     //   const updatedPost = {
+    //     //     ...post,
+    //     //     voteCount: hasVoted ? post.voteCount + 2 : post.voteCount + 1,
+    //     //     hasVoted: true,
+    //     //     voteStatus: true,
+    //     //   };
+
+    //     // Return new state with the updated post
+    //     // state.posts = [
+    //     //   ...state.posts.slice(0, postIndex),
+    //     //   updatedPost,
+    //     //   ...state.posts.slice(postIndex + 1),
+    //     // ];
+
+    //     const post = state.posts.find((post) => post._id === postId);
+    //     if (post && !post.hasVoted) {
+    //       post.voteCount += 1;
+    //       post.hasVoted = true;
+    //     } else if (post && hasVoted) {
+    //       post.voteCount += 2;
+    //     }
+    //   },
     stopLoadingNewPost(state) {
       state.loadingNewPost = false;
     },
     emptyPosts(state) {
       state.posts = [];
       state.page = 1;
+    },
+    setVoteCount: (state, action) => {
+      const { postId, voteCount } = action.payload;
+      const post = state.posts.find((post) => post._id === postId);
+      if (post) {
+        post.voteCount = voteCount;
+      }
     },
   },
 });
@@ -69,6 +137,7 @@ export const {
   addPostToFollowingFeed,
   setFollowingFeedPage,
   stopLoadingNewPost,
+  setVoteCount,
   emptyPosts,
 } = followingFeedSlice.actions;
 export default followingFeedSlice.reducer;
