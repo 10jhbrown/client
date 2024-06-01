@@ -6,3 +6,6 @@ export const selectFollowingFeedState = (state: ApplicationState) =>
 
 export const selectUserVotes = (state: ApplicationState) =>
   selectFollowingFeedState(state).userVotes;
+
+export const selectUserVoteStatus = (state: ApplicationState) =>
+  selectFollowingFeedState(state).status;

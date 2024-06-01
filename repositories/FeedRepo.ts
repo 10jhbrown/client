@@ -43,13 +43,45 @@ export const getCampusFeedPosts = createAsyncThunk(
   }
 );
 
-export const getFollowingFeedPosts = createAsyncThunk(
+export const getLatestFollowingFeedPosts = createAsyncThunk(
   "followingFeed/getFollowingFeedPosts",
   async ({ page, token }: { page: number; token: string }, { dispatch }) => {
     try {
       dispatch(fetchFollowingFeedStart());
       const followingFeedResponse = await fetch(
-        `${API_URL}/feeds/following?page=${page}&limit=6`,
+        `${API_URL}/feeds/following?page=${page}&limit=6&sortBy=latest`,
+        {
+          method: "get",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const followingFeed = await followingFeedResponse.json();
+
+      if (followingFeed.error) {
+        dispatch(fetchFollowingFeedFailure(followingFeed.error));
+        return;
+      }
+
+      dispatch(fetchFollowingFeedSuccess(followingFeed));
+      dispatch(stopLoadingNewPost());
+
+      await saveFeedToAsyncStorage("@storedFollowingFeed", followingFeed);
+    } catch (error) {
+      throw new error.message();
+    }
+  }
+);
+
+export const getGreatestFollowingFeedPosts = createAsyncThunk(
+  "followingFeed/getFollowingFeedPosts",
+  async ({ page, token }: { page: number; token: string }, { dispatch }) => {
+    try {
+      dispatch(fetchFollowingFeedStart());
+      const followingFeedResponse = await fetch(
+        `${API_URL}/feeds/following?page=${page}&limit=6&sortBy=greatest`,
         {
           method: "get",
           headers: {

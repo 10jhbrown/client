@@ -1,3 +1,3 @@
 export interface SortSwitchState {
-  activeSortSwitch: boolean;
+  activeSort: string;
 }

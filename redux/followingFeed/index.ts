@@ -31,10 +31,6 @@ export const followingFeedSlice = createSlice({
       } else {
         state.posts = [...state.posts, ...action.payload.posts];
       }
-      state.posts = state.posts.map((post) => ({
-        ...post,
-        hasVoted: post.hasVoted,
-      }));
       state.hasMorePages = action.payload.posts.length === 6;
       state.isRefreshing = false;
     },

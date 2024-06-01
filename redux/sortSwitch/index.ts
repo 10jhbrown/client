@@ -3,7 +3,7 @@ import { SortSwitchState } from "./types";
 import { ACTIVE_SORT_SWITCH } from "../../constants/constants";
 
 const initialState: SortSwitchState = {
-  activeSortSwitch: ACTIVE_SORT_SWITCH.LATEST,
+  activeSort: ACTIVE_SORT_SWITCH.LATEST,
 };
 
 export const sortSwitchSlice = createSlice({
@@ -11,10 +11,10 @@ export const sortSwitchSlice = createSlice({
   initialState,
   reducers: {
     setLatestSort(state) {
-      state.activeSortSwitch = ACTIVE_SORT_SWITCH.GREATEST;
+      state.activeSort = ACTIVE_SORT_SWITCH.LATEST;
     },
     setGreatestSort(state) {
-      state.activeSortSwitch = ACTIVE_SORT_SWITCH.LATEST;
+      state.activeSort = ACTIVE_SORT_SWITCH.GREATEST;
     },
   },
 });

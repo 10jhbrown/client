@@ -9,6 +9,6 @@ export const ACTIVE_FEED_TAB = {
 };
 
 export const ACTIVE_SORT_SWITCH = {
-  LATEST: true,
-  GREATEST: false,
+  LATEST: "latest",
+  GREATEST: "greatest",
 };

@@ -14,6 +14,5 @@ export interface FollowingVoteRequest {
 export interface FollowingVoteResponse {
   postId: string;
   vote: boolean;
-  success: boolean;
   // Include any other response fields if necessary
 }

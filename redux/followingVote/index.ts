@@ -19,6 +19,7 @@ export const followingVoteSlice = createSlice({
       state,
       action: PayloadAction<{ postId: string; vote: boolean }>
     ) {
+      state.status = "loading";
       const { postId, vote } = action.payload;
       state.userVotes[postId] = vote;
     },
@@ -39,6 +40,7 @@ export const followingVoteSlice = createSlice({
       })
       .addCase(fetchUserFollowingVotes.pending, (state) => {
         state.status = "loading";
+        console.log("LOADING FETCH");
       })
       .addCase(fetchUserFollowingVotes.rejected, (state, action) => {
         state.status = "failed";
@@ -56,6 +58,7 @@ export const followingVoteSlice = createSlice({
           },
           {}
         );
+        console.log("SUCCESSFUL FETCH", Object.keys(state.userVotes).length);
       });
   },
 });

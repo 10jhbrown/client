@@ -77,52 +77,33 @@ export const fetchUserFollowingVotes = createAsyncThunk(
   }
 );
 
-// export const sendFollowingVote = createAsyncThunk<
-//   FollowingVoteResponse,
-//   FollowingVoteRequest,
-//   { rejectValue: string }
-// >(
-//   "followingVote/sendFollowingVote",
+// export const fetchUserFollowingVotes = createAsyncThunk(
+//   "votes/fetchUserVotes",
 //   async (
-//     {
-//       postId,
-//       vote,
-//       token,
-//     }: {
-//       postId: string;
-//       vote: boolean;
-//       token: string;
-//     },
-//     { rejectWithValue, thunkAPI }
+//     { postId, token }: { postId: string; token: string },
+//     { dispatch }
 //   ) => {
-//     console.log("ENTER VOTE REPO");
-
 //     try {
-//       const response = await fetch(`${API_URL}/posts/vote`, {
+//       const response = await fetch(`${API_URL}/posts/uservotes`, {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
 //           authorization: `Bearer ${token}`,
 //         },
-//         body: JSON.stringify({
-//           postId: postId,
-//           vote: vote,
-//         }),
+//         body: JSON.stringify({ postId }),
 //       });
 
 //       const data = await response.json();
-//       console.log("ENTER VOTE REPO ", data);
 
 //       if (!response.ok) {
-//         return rejectWithValue(data.error);
+//         throw data.error;
 //       }
-
-//       const { voteCount } = data;
-//       thunkAPI.dispatch(setVoteCount({ postId, voteCount }));
-
-//       //   return data as FollowingVoteResponse;
+//       data.forEach((vote: FollowingVoteResponse) => {
+//       dispatch(setUserVotes({ postId: postId, vote: data.vote }));
+//       });
+//       return data as FollowingVoteResponse[];
 //     } catch (error) {
-//       return rejectWithValue(error.message);
+//       throw error.message;
 //     }
 //   }
 // );

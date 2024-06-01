@@ -23,18 +23,18 @@ export const SortSwitch = () => {
       easing: Easing.linear,
       useNativeDriver: false,
     }).start();
-    if (activeSort && toValue === 1) {
-      dispatch(setLatestSort());
-    }
-    if (!activeSort && toValue === 0) {
+    if (activeSort === "latest" && toValue === 1) {
       dispatch(setGreatestSort());
+    } else if (activeSort === "greatest" && toValue === 0) {
+      dispatch(setLatestSort());
     }
   };
 
   useEffect(() => {
-    if (activeSort) {
+    if (activeSort === "latest") {
       startAnimation(0);
     }
+    console.log("ACTIVE SORT: ", activeSort);
   }, [activeSort]);
 
   const left = animatedValue.interpolate({
@@ -50,7 +50,7 @@ export const SortSwitch = () => {
   });
 
   const activeSortLatest = (textLabel) => {
-    return activeSort ? (
+    return activeSort === "latest" ? (
       <Animated.Text style={[styles.sliderText, { transform: [{ scale }] }]}>
         {textLabel}
       </Animated.Text>
@@ -60,12 +60,12 @@ export const SortSwitch = () => {
   };
 
   const activeSortGreatest = (textLabel) => {
-    return activeSort ? (
-      <Text style={styles.inActiveText}>{textLabel}</Text>
-    ) : (
+    return activeSort === "greatest" ? (
       <Animated.Text style={[styles.sliderText, { transform: [{ scale }] }]}>
         {textLabel}
       </Animated.Text>
+    ) : (
+      <Text style={styles.inActiveText}>{textLabel}</Text>
     );
   };
 
