@@ -1,3 +1,3 @@
 export interface SortSwitchState {
-  activeSort: string;
+  activeSort: "latest" | "greatest";
 }

@@ -2,7 +2,9 @@ import React from "react";
 import { Post } from "types";
 import { theme } from "theme";
 import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 import styled from "styled-components/native";
+import { Image } from "react-native";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 
 const Card = styled.View`
@@ -20,12 +22,12 @@ const Header = styled.View`
   align-items: center;
 `;
 
-const Avatar = styled.Image`
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  border: 2px solid ${theme.colors.SURFACE_300};
-`;
+const Avatar = styled(Image).attrs({
+  width: 50,
+  height: 50,
+  borderRadius: 25,
+  border: `2px solid ${theme.colors.SURFACE_300}`,
+})``;
 
 const UserDetails = styled.View`
   flex: 1;
@@ -103,6 +105,8 @@ const areEqual = (prevProps, nextProps) => {
   );
 };
 
+TimeAgo.addLocale(en);
+
 export const FollowingCard = React.memo(({ post, userVote, onVote }: Props) => {
   const {
     _id,
@@ -116,7 +120,7 @@ export const FollowingCard = React.memo(({ post, userVote, onVote }: Props) => {
     createdAt,
   } = post;
 
-  console.log("RENDERED CARD");
+  console.log("RENDERED CARD", _id);
 
   const timeAgo = new TimeAgo("en-US");
 

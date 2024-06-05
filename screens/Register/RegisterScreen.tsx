@@ -38,7 +38,7 @@ import {
   sendEmailVerificationCode,
   registerUser,
   loginUser,
-} from "../../repositories/AuthRepo";
+} from "../../thunks/AuthThunk";
 import { VerificationForm } from "../../components/verificationForm";
 import { ApplicationState } from "../../redux/types";
 

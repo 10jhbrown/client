@@ -5,9 +5,9 @@ import { theme } from "theme";
 import { FollowingPostField } from "./followingPostForm.css";
 import { useSelector } from "react-redux";
 import { selectAuthToken } from "../../redux/auth/selectors";
-import { submitFollowingPost } from "../../repositories/FeedRepo";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
+import { addFollowingPostThunk } from "redux/followingFeed/thunk";
 
 export const FollowingPostForm = ({
   formikRef,
@@ -25,7 +25,7 @@ export const FollowingPostForm = ({
         onSubmit={(values) => {
           const { followingPost } = values;
           //@ts-ignore
-          dispatch(submitFollowingPost({ followingPost, token }));
+          dispatch(addFollowingPostThunk({ content: followingPost, token }));
           //@ts-ignore
           navigation.navigate("Home", undefined);
         }}

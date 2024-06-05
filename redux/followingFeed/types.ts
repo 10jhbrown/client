@@ -1,16 +1,13 @@
-import { Post } from "../../types";
+import { Post, FollowingPostResponse } from "../../types";
 export interface FollowingFeedState {
-  posts: Post[];
-  loading: boolean;
-  page: number;
-  hasMorePages: boolean;
+  latestPosts: Post[];
+  latestPage: number;
+  hasMoreLatestPages: boolean;
+  greatestPosts: Post[];
+  greatestPage: number;
+  hasMoreGreatestPages: boolean;
+  isLoading: boolean;
   isRefreshing: boolean;
-  error: Error | null;
-  loadingNewPost: boolean;
-}
-
-export interface FollowingFeedRequest {
-  posts: Post[];
-  page: number;
-  hasMorePages: boolean;
+  isAddingPost: boolean;
+  error: string | null;
 }

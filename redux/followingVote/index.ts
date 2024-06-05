@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserFollowingVotes, FollowingVote, FollowingVoteState } from "./types";
-import {
-  sendFollowingVote,
-  fetchUserFollowingVotes,
-} from "../../repositories/VoteRepo";
+import { voteFollowingPost, getUserVotes } from "./thunk";
+import { UserVotesResponse } from "types";
 
 const initialState: FollowingVoteState = {
   status: "idle",
@@ -26,32 +24,34 @@ export const followingVoteSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(sendFollowingVote.pending, (state) => {
+      .addCase(voteFollowingPost.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(sendFollowingVote.fulfilled, (state, action) => {
+      .addCase(voteFollowingPost.fulfilled, (state, action) => {
         const { postId, vote } = action.payload;
         state.userVotes[postId] = vote;
         state.status = "succeeded";
       })
-      .addCase(sendFollowingVote.rejected, (state, action) => {
+      .addCase(voteFollowingPost.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to send vote";
       })
-      .addCase(fetchUserFollowingVotes.pending, (state) => {
+      .addCase(getUserVotes.pending, (state) => {
         state.status = "loading";
         console.log("LOADING FETCH");
       })
-      .addCase(fetchUserFollowingVotes.rejected, (state, action) => {
+      .addCase(getUserVotes.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to send vote";
       })
-      .addCase(fetchUserFollowingVotes.fulfilled, (state, action) => {
+      .addCase(getUserVotes.fulfilled, (state, action) => {
+        console.log("USER VOTES REDUX");
         state.status = "succeeded";
+        //@ts-ignore
         state.userVotes = action.payload.reduce(
           (
             acc: UserFollowingVotes,
-            vote: { postId: string; vote: FollowingVote }
+            vote: { postId: string; vote: boolean }
           ) => {
             acc[vote.postId] = vote.vote;
             return acc;

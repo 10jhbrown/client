@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { theme } from "../../theme";
 import { useSelector, useDispatch } from "react-redux";
-import { selectActiveSortState } from "../../redux/sortSwitch/selectors";
+import { selectActiveSort } from "../../redux/sortSwitch/selectors";
 import { setLatestSort, setGreatestSort } from "../../redux/sortSwitch";
 
 export const SortSwitch = () => {
   const animatedValue = React.useRef(new Animated.Value(0)).current;
-  const activeSort = useSelector(selectActiveSortState);
+  const activeSort = useSelector(selectActiveSort);
   const dispatch = useDispatch();
   const startAnimation = (toValue) => {
     Animated.timing(animatedValue, {

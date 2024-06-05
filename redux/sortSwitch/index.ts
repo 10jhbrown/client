@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SortSwitchState } from "./types";
-import { ACTIVE_SORT_SWITCH } from "../../constants/constants";
 
 const initialState: SortSwitchState = {
-  activeSort: ACTIVE_SORT_SWITCH.LATEST,
+  activeSort: "latest",
 };
 
 export const sortSwitchSlice = createSlice({
@@ -11,10 +10,10 @@ export const sortSwitchSlice = createSlice({
   initialState,
   reducers: {
     setLatestSort(state) {
-      state.activeSort = ACTIVE_SORT_SWITCH.LATEST;
+      state.activeSort = "latest";
     },
     setGreatestSort(state) {
-      state.activeSort = ACTIVE_SORT_SWITCH.GREATEST;
+      state.activeSort = "greatest";
     },
   },
 });
